@@ -1,6 +1,6 @@
 {
   "name": "devlogs-validator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Validate data in easy way",
   "main": "./Validator.js",
   "type": "module",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/youssef-ahmed-Devlogs/Javascript-Validator.git"
+    "url": "https://github.com/youssef-ahmed-Devlogs/Javascript-Validator/tree/master/package"
   },
   "keywords": [
     "jsValidator"
@@ -19,5 +19,5 @@
   "bugs": {
     "url": "https://github.com/youssef-ahmed-Devlogs/Javascript-Validator/issues"
   },
-  "homepage": "https://github.com/youssef-ahmed-Devlogs/Javascript-Validator/tree/master/package"
+  "homepage": "git+https://github.com/youssef-ahmed-Devlogs/Javascript-Validator.git"
 }
