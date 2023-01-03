@@ -1,0 +1,23 @@
+{
+  "name": "devlogs-validator",
+  "version": "1.0.0",
+  "description": "Validate data in easy way",
+  "main": "./Validator.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youssef-ahmed-Devlogs/Javascript-Validator.git"
+  },
+  "keywords": [
+    "jsValidator"
+  ],
+  "author": "Youssef Ahmed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/youssef-ahmed-Devlogs/Javascript-Validator/issues"
+  },
+  "homepage": "https://github.com/youssef-ahmed-Devlogs/Javascript-Validator#readme"
+}

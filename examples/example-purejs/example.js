@@ -1,4 +1,4 @@
-import Validator from "./dist/js/Validator.js";
+import Validator from "./node_modules/devlogs-validator/Validator.js";
 
 const form = document.getElementById("example");
 const { username, email, password, passwordConfirm, role, photo } = form;

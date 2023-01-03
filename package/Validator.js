@@ -1,4 +1,4 @@
-import ValidatorWorker from "./ValidatorWorker.js";
+import ValidatorWorker from "./classes/ValidatorWorker.js";
 
 class Validator extends ValidatorWorker {
   constructor(data) {
