@@ -1,3 +1,3 @@
 # npm install devlogs-validator
 
-<img src="./assets/images/main-example.png">
+<img src="https://github.com/youssef-ahmed-Devlogs/Javascript-Validator/raw/master/assets/images/main-example.png">
