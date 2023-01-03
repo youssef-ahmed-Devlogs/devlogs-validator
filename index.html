@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css" />
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f5f5f5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container my-5">
+      <h1 class="fw-bold display-2 mb-4">Create User</h1>
+
+      <form id="example">
+        <div class="row">
+          <div class="col-xl-6 mb-2">
+            <div class="form-item">
+              <input
+                type="text"
+                placeholder="username"
+                class="form-control"
+                id="username"
+              />
+              <small
+                class="error text-danger fw-bold"
+                id="username-error"
+              ></small>
+            </div>
+          </div>
+          <div class="col-xl-6 mb-2">
+            <div class="form-item">
+              <input
+                type="text"
+                placeholder="email"
+                class="form-control"
+                id="email"
+              />
+              <small class="error text-danger fw-bold" id="email-error"></small>
+            </div>
+          </div>
+          <div class="col-xl-6 mb-2">
+            <div class="form-item">
+              <input
+                type="password"
+                placeholder="password"
+                class="form-control"
+                id="password"
+              />
+              <small
+                class="error text-danger fw-bold"
+                id="password-error"
+              ></small>
+            </div>
+          </div>
+          <div class="col-xl-6 mb-2">
+            <div class="form-item">
+              <input
+                type="password"
+                placeholder="password confirm"
+                class="form-control"
+                id="passwordConfirm"
+              />
+              <small
+                class="error text-danger fw-bold"
+                id="passwordConfirm-error"
+              ></small>
+            </div>
+          </div>
+          <div class="col-xl-6 mb-2">
+            <div class="form-item">
+              <select id="role" class="form-control">
+                <option value="">Select User Role</option>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+              <small class="error text-danger fw-bold" id="role-error"></small>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <div class="form-item">
+              <input type="file" class="form-control" id="photo" />
+              <small class="error text-danger fw-bold" id="photo-error"></small>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-success d-block w-100 mt-3">Create User</button>
+      </form>
+    </div>
+    <script type="module" src="./example.js"></script>
+  </body>
+</html>
