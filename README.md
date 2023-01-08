@@ -43,6 +43,62 @@ const formData = {
 
 ```javascript
 const validator = new Validator(formData);
+let errors = validator.setValidation({
+  username: ["required", "min:5", "max:20"],
+  email: ["required", "email"],
+  password: ["required", "min:8", "max:50"],
+  passwordConfirm: ["required", "match:password", "min:8", "max:50"],
+  photo: ["image:jpeg,png", "size:2048"],
+  role: ["required", "enum:user,admin"],
+});
+```
+
+#### Set Messages
+
+```javascript
+errors.setMessages({
+  username: {
+    required: "Username field is required.",
+    min: "Username must be at least 5 characters.",
+    max: "Username characters max 20.",
+  },
+  email: {
+    required: "Email field is required.",
+    email: "Please provide a valid email.",
+  },
+  password: {
+    required: "Password is required",
+    min: "Password must be at least 8 characters.",
+    max: "Password characters max 50.",
+  },
+  passwordConfirm: {
+    required: "Password confirm is required",
+    match: "Passwords are not the same.",
+    min: "Password confirm must be at least 8 characters.",
+    max: "Password confirm characters max 50.",
+  },
+  photo: {
+    image: "Please provide a valid image (jpeg, png).",
+    size: "Max size is 2048KB.",
+  },
+  role: {
+    required: "Role is required",
+    enum: "Role value must be in (user, admin)",
+  },
+});
+```
+
+#### Prepare and return errors as object or array
+
+```javascript
+errors = errors.prepare().getObjectErrors(); // get errors as object
+//.getErrors(); // get errors as array
+```
+
+#### The entire example
+
+```javascript
+const validator = new Validator(formData);
 const errors = validator
   .setValidation({
     username: ["required", "min:5", "max:20"],
