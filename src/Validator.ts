@@ -1,28 +1,29 @@
-import ValidatorWorker from "./classes/ValidatorWorker.js";
+import ValidatorControllers from "./classes/ValidatorControllers.js";
+import Validators from "./interfaces/Validator.js";
 
-class Validator extends ValidatorWorker {
-  constructor(data) {
+class Validator extends ValidatorControllers implements Validators {
+  constructor(data: Object) {
     super(data);
   }
 
-  required(field) {
+  public required(field: string): void {
     if (this.data[field] === "") this.sendMessage(field, "required");
   }
 
-  match(field, matchField) {
+  public match(field: string, matchField: string): void {
     if (this.data[field].trim() !== this.data[matchField].trim())
       this.sendMessage(field, "match");
   }
 
-  max(field, size = 255) {
+  public max(field: string, size: string = "255"): void {
     if (this.data[field].length > size) this.sendMessage(field, "max");
   }
 
-  min(field, size = 5) {
+  public min(field: string, size: string = "5"): void {
     if (this.data[field].length < size) this.sendMessage(field, "min");
   }
 
-  email(field) {
+  public email(field: string): void {
     const validateEmail = String(this.data[field])
       .toLowerCase()
       .match(
@@ -32,7 +33,7 @@ class Validator extends ValidatorWorker {
     if (!validateEmail) this.sendMessage(field, "email");
   }
 
-  image(field, extensions) {
+  public image(field: string, extensions: string[]): void {
     const type =
       this.data[field].type !== "" ? this.data[field].type : "null/null";
 
@@ -40,14 +41,14 @@ class Validator extends ValidatorWorker {
     if (ext && !extensions.includes(ext)) this.sendMessage(field, "image");
   }
 
-  imageSize(field, imageSize) {
+  public imageSize(field: string, imageSize: string | number): void {
     const convertSizeToKB = Math.ceil(this?.data[field]?.size / 1024) || "";
 
     if (convertSizeToKB && convertSizeToKB > imageSize)
       this.sendMessage(field, "size");
   }
 
-  enum(field, params) {
+  public enum(field: string, params: string[]): void {
     const check = `${this.data[field]}`;
     if (!params.includes(check)) this.sendMessage(field, "enum");
   }

@@ -1,0 +1,26 @@
+{
+  "name": "devlogs-validator",
+  "version": "1.0.4",
+  "description": "Validate data in easy way",
+  "main": "./dist/Validator.js",
+  "type": "module",
+  "scripts": {
+    "start": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/youssef-ahmed-Devlogs/devlogs-validator/tree/master/package"
+  },
+  "keywords": [
+    "devlogs",
+    "javascript",
+    "validator",
+    "validation"
+  ],
+  "author": "Youssef Ahmed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/youssef-ahmed-Devlogs/devlogs-validator/issues"
+  },
+  "homepage": "git+https://github.com/youssef-ahmed-Devlogs/devlogs-validator.git"
+}

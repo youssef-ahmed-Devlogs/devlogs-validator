@@ -1,6 +1,0 @@
-{
-  "type": "module",
-  "dependencies": {
-    "devlogs-validator": "^1.0.0"
-  }
-}
