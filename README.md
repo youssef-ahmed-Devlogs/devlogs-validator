@@ -1,5 +1,7 @@
 # devlogs-validator.js
 
+[![NPM version][npm-image]][npm-url]
+
 Devlogs Validator is a library to validate data in client or server.
 documentation
 
@@ -155,3 +157,5 @@ const errors = validator
 "size:(KB)"; // Set a certain file size in KB. ["size:2048"]
 "enum:(values)"; // Set a certain values. ["enum:user,admin"]
 ```
+
+[npm-url]: https://www.npmjs.com/package/devlogs-validator
