@@ -159,3 +159,4 @@ const errors = validator
 ```
 
 [npm-url]: https://www.npmjs.com/package/devlogs-validator
+[npm-image]: http://img.shields.io/npm/v/validator.svg
