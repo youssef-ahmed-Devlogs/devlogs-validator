@@ -4,6 +4,7 @@ class ValidatorWorker {
         this.objectErrors = {};
         this.validation = {};
         this.messages = {};
+        this.fileSize = "";
         this.data = data;
     }
     prepare() {
@@ -16,33 +17,25 @@ class ValidatorWorker {
         });
         return this;
     }
-    // extractFields(errorTypes, errorTypesText) {
-    //   // ==== Get max validation and extract it ["max:20"] => "max" "20" ========
-    //   const extractMax = errorTypes.find((item) =>
-    //     item.startsWith(errorTypesText)
-    //   );
-    //   let [max, maxSize] = extractMax?.split(":") || "";
-    //   return [max, maxSize];
-    // }
+    extractFields(validationTypes, validationTypeText) {
+        /**
+         * ==== Get field validation and extract it ====
+         * ["max:20"] => "max" "20"
+         * ["min:20"] => "min" "20"
+         * etc...
+         */
+        const extractMax = validationTypes.find((item) => item.startsWith(validationTypeText));
+        let [validation, params] = (extractMax === null || extractMax === void 0 ? void 0 : extractMax.split(":")) || "";
+        return [validation, params];
+    }
     selectErrorType(validationTypes, field) {
-        // ==== Get max validation and extract it ["max:20"] => "max" "20" ========
-        const extractMax = validationTypes.find((item) => item.startsWith("max"));
-        let [max, maxSize] = (extractMax === null || extractMax === void 0 ? void 0 : extractMax.split(":")) || "";
-        // ==== Get min validation and extract it ["min:20"] => "min" "20" ========
-        const extractMin = validationTypes.find((item) => item.startsWith("min"));
-        let [min, minSize] = (extractMin === null || extractMin === void 0 ? void 0 : extractMin.split(":")) || "";
-        // ==== Get enum validation and extract its params ["enum:user,admin"] => "enum" "user,admin" ========
-        const extractEum = validationTypes.find((item) => item.startsWith("enum"));
-        let [_enum, params] = (extractEum === null || extractEum === void 0 ? void 0 : extractEum.split(":")) || "";
-        // ==== Get image validation and extract its extensions ["image:png,jpeg"] => "image" "png,jpeg" ========
-        const extractImage = validationTypes.find((item) => item.startsWith("image"));
-        let [image, extensions] = (extractImage === null || extractImage === void 0 ? void 0 : extractImage.split(":")) || "";
-        // ==== Get image size validation and extract it ["size:1000"] => "size" "1000" ========
-        const extractImageSize = validationTypes.find((item) => item.startsWith("size"));
-        let [size, imageSize] = (extractImageSize === null || extractImageSize === void 0 ? void 0 : extractImageSize.split(":")) || "";
-        // ==== Get min validation and extract it ["min:20"] => "min" "20" ========
-        const extractMatch = validationTypes.find((item) => item.startsWith("match"));
-        let [match, matchField] = (extractMatch === null || extractMatch === void 0 ? void 0 : extractMatch.split(":")) || "";
+        const [max, maxSize] = this.extractFields(validationTypes, "max");
+        const [min, minSize] = this.extractFields(validationTypes, "min");
+        const [_enum, params] = this.extractFields(validationTypes, "enum");
+        const [image, extensions] = this.extractFields(validationTypes, "image");
+        const [size, imageSize] = this.extractFields(validationTypes, "size");
+        this.fileSize = imageSize;
+        const [match, matchField] = this.extractFields(validationTypes, "match");
         if (size && imageSize)
             this.imageSize(field, imageSize.trim());
         if (image && extensions) {
@@ -66,7 +59,10 @@ class ValidatorWorker {
     }
     sendMessage(field, errorType) {
         let message = `${field} has no message for ${errorType} error.`;
-        if (this === null || this === void 0 ? void 0 : this.messages[field]) {
+        if (errorType === "size") {
+            message = `The max size is ${this.fileSize} KB`;
+        }
+        if ((this === null || this === void 0 ? void 0 : this.messages[field]) && (this === null || this === void 0 ? void 0 : this.messages[field][errorType])) {
             message = this === null || this === void 0 ? void 0 : this.messages[field][errorType];
         }
         this.errors.push(message);

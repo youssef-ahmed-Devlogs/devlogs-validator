@@ -1,9 +1,11 @@
-abstract class ValidatorWorker {
+class ValidatorWorker {
   protected data: any;
   protected errors: string[] = [];
   protected objectErrors: any = {};
   protected validation: any = {};
   protected messages: any = {};
+
+  protected fileSize: string = "";
 
   constructor(data: Object) {
     this.data = data;
@@ -22,40 +24,28 @@ abstract class ValidatorWorker {
     return this;
   }
 
-  // extractFields(errorTypes, errorTypesText) {
-  //   // ==== Get max validation and extract it ["max:20"] => "max" "20" ========
-  //   const extractMax = errorTypes.find((item) =>
-  //     item.startsWith(errorTypesText)
-  //   );
-  //   let [max, maxSize] = extractMax?.split(":") || "";
-  //   return [max, maxSize];
-  // }
+  extractFields(validationTypes: string[], validationTypeText: string) {
+    /**
+     * ==== Get field validation and extract it ====
+     * ["max:20"] => "max" "20"
+     * ["min:20"] => "min" "20"
+     * etc...
+     */
+    const extractMax = validationTypes.find((item) =>
+      item.startsWith(validationTypeText)
+    );
+    let [validation, params] = extractMax?.split(":") || "";
+    return [validation, params];
+  }
 
-  private selectErrorType(validationTypes: String[], field: string): void {
-    // ==== Get max validation and extract it ["max:20"] => "max" "20" ========
-    const extractMax = validationTypes.find((item) => item.startsWith("max"));
-    let [max, maxSize] = extractMax?.split(":") || "";
-    // ==== Get min validation and extract it ["min:20"] => "min" "20" ========
-    const extractMin = validationTypes.find((item) => item.startsWith("min"));
-    let [min, minSize] = extractMin?.split(":") || "";
-    // ==== Get enum validation and extract its params ["enum:user,admin"] => "enum" "user,admin" ========
-    const extractEum = validationTypes.find((item) => item.startsWith("enum"));
-    let [_enum, params] = extractEum?.split(":") || "";
-    // ==== Get image validation and extract its extensions ["image:png,jpeg"] => "image" "png,jpeg" ========
-    const extractImage = validationTypes.find((item) =>
-      item.startsWith("image")
-    );
-    let [image, extensions] = extractImage?.split(":") || "";
-    // ==== Get image size validation and extract it ["size:1000"] => "size" "1000" ========
-    const extractImageSize = validationTypes.find((item) =>
-      item.startsWith("size")
-    );
-    let [size, imageSize] = extractImageSize?.split(":") || "";
-    // ==== Get min validation and extract it ["min:20"] => "min" "20" ========
-    const extractMatch = validationTypes.find((item) =>
-      item.startsWith("match")
-    );
-    let [match, matchField] = extractMatch?.split(":") || "";
+  private selectErrorType(validationTypes: string[], field: string): void {
+    const [max, maxSize] = this.extractFields(validationTypes, "max");
+    const [min, minSize] = this.extractFields(validationTypes, "min");
+    const [_enum, params] = this.extractFields(validationTypes, "enum");
+    const [image, extensions] = this.extractFields(validationTypes, "image");
+    const [size, imageSize] = this.extractFields(validationTypes, "size");
+    this.fileSize = imageSize;
+    const [match, matchField] = this.extractFields(validationTypes, "match");
 
     if (size && imageSize) this.imageSize(field, imageSize.trim());
 
@@ -79,7 +69,11 @@ abstract class ValidatorWorker {
   protected sendMessage(field: string, errorType: string): void {
     let message = `${field} has no message for ${errorType} error.`;
 
-    if (this?.messages[field]) {
+    if (errorType === "size") {
+      message = `The max size is ${this.fileSize} KB`;
+    }
+
+    if (this?.messages[field] && this?.messages[field][errorType]) {
       message = this?.messages[field][errorType];
     }
 
