@@ -142,3 +142,16 @@ const errors = validator
   //.getErrors(); // get errors as array
   .getObjectErrors(); // get errors as object
 ```
+
+#### Available ["FLAGS"]
+
+```javascript
+"required"; // Check if a certain field is not empty.
+"email"; // Check if a certain field is a valid email address.
+"match:(field)"; // Check if a certain field value is equal to another field value. ["match:password"]
+"min:(number)"; // Set a certain minimum length. ["min:8"]
+"max:(number)"; // Set a certain maximum length. ["max:100"]
+"image:(extensions)"; // Check if a certain image field is an image with certain extensions. ["image:jpeg,png,jpg"]
+"size:(KB)"; // Set a certain file size in KB. ["size:2048"]
+"enum:(values)"; // Set a certain values. ["enum:user,admin"]
+```
