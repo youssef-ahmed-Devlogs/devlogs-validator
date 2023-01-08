@@ -3,7 +3,6 @@
 [![NPM version][npm-image]][npm-url]
 
 Devlogs Validator is a library to validate data in client or server.
-documentation
 
 ## Where can I use it?
 
