@@ -186,7 +186,7 @@ First you have to use **addTranslation(language, translation as object)** then u
 const validator = new Validator(formData);
 
 validator.addTranslation("fr", {
-  required: `<%fieldName%> field is required.`,
+  required: `Le champ <%fieldName%> est obligatoire.`,
   email: `Veuillez fournir une adresse e-mail valide pour le champ <%fieldName%>.`,
   min: `La longueur minimale de <%fieldName%> est de <%minSize%> caractères.`,
   max: `La longueur maximale de <%fieldName%> est de <%maxSize%> caractères.`,
