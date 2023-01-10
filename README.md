@@ -63,7 +63,7 @@ let errors = validator.setValidation({
 
 #### Set a custom message for each field manually
 
-You can skip this part because there is global error messages for all validation errors. and you can change the global error messages and add messages in different languages.
+**You can skip this part** because there is global error messages for all validation errors. and you can change the global error messages and add messages in different languages.
 
 - [Translations and Languages](#translations-and-languages)
 
@@ -157,8 +157,20 @@ const errors = validator
 
 ## Translations and Languages
 
+There is global error messages for all validation errors. so that is means you can **setValidation()** then **prepare()** and **getObjectErrors()** then that will return for you a global error messages for all validation errors.
+
+<!-- and you can change the global error messages and add messages in different languages. -->
+
 ```javascript
-Test;
+const validator = new Validator(formData);
+let errors = validator.setValidation({
+  username: ["required", "min:5", "max:20"],
+  email: ["required", "email"],
+  password: ["required", "min:8", "max:50"],
+  passwordConfirm: ["required", "match:password", "min:8", "max:50"],
+  photo: ["image:jpeg,png", "size:2048"],
+  role: ["required", "enum:user,admin"],
+});
 ```
 
 ## Flags
