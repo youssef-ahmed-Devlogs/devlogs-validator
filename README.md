@@ -13,7 +13,8 @@ Devlogs Validator is a library to validate data in a client or server. Which mea
 - [Where can I use it?](#where-can-i-use-it?)
 - [Installation and Usage](#installation-and-usage)
 - [Translations and Languages](#translations-and-languages)
-- [Add new translation for arabic language](#add-new-translation-for-arabic-language)
+- [Add new translation for French Language](#add-new-translation-for-french-language)
+- [Add new translation for Arabic Language](#add-new-translation-for-arabic-language)
 - [Flags](#flags)
 
 ## Installation and Usage
@@ -177,7 +178,39 @@ let errors = validator
   .getObjectErrors();
 ```
 
-### Add new translation for arabic language
+### Add new translation for French Language
+
+First you have to use **addTranslation(language, translation as object)** then use **setLanguage(Language)** before **prepare()**
+
+```javascript
+const validator = new Validator(formData);
+
+validator.addTranslation("fr", {
+  required: `<%fieldName%> field is required.`,
+  email: `Veuillez fournir une adresse e-mail valide pour le champ <%fieldName%>.`,
+  min: `La longueur minimale de <%fieldName%> est de <%minSize%> caractères.`,
+  max: `La longueur maximale de <%fieldName%> est de <%maxSize%> caractères.`,
+  match: `Le champ <%fieldName%> et <%matchField%> ne correspondent pas.`,
+  enum: `Le champ <%fieldName%> doit être l'un des <%enumParams%>.`,
+  image: `Veuillez fournir une image valide (<%imageExtensions%>).`,
+  size: `La taille maximale de <%fieldName%> est de <%fileSize%>Ko.`,
+});
+
+let errors = validator
+  .setValidation({
+    username: ["required", "min:5", "max:20"],
+    email: ["required", "email"],
+    password: ["required", "min:8", "max:50"],
+    passwordConfirm: ["required", "match:password", "min:8", "max:50"],
+    photo: ["image:jpeg,png", "size:2048"],
+    role: ["required", "enum:user,admin"],
+  })
+  .setLanguage("fr") // French
+  .prepare()
+  .getObjectErrors();
+```
+
+### Add new translation for Arabic Language
 
 First you have to use **addTranslation(language, translation as object)** then use **setLanguage(Language)** before **prepare()**
 
