@@ -11,8 +11,9 @@ Devlogs Validator is a library to validate data in a client or server. Which mea
 ## Summary
 
 - [Where can I use it?](#where-can-i-use-it?)
-  [asdasd](#asdasd)
 - [Installation and Usage](#installation-and-usage)
+- [Translations and Languages](#translations-and-languages)
+- [Flags](#flags)
 
 ## Installation and Usage
 
@@ -63,6 +64,8 @@ let errors = validator.setValidation({
 #### Set a custom message for each field manually
 
 You can skip this part because there is global error messages for all validation errors. and you can change the global error messages and add messages in different languages.
+
+- [Translations and Languages](#translations-and-languages)
 
 ```javascript
 errors.setMessages({
@@ -152,7 +155,13 @@ const errors = validator
   .getObjectErrors(); // get errors as object
 ```
 
-#### Available ["FLAGS"]
+## Translations and Languages
+
+```javascript
+Test;
+```
+
+## Flags
 
 ```javascript
 "required"; // Check if a certain field is not empty.
