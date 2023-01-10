@@ -13,6 +13,7 @@ Devlogs Validator is a library to validate data in a client or server. Which mea
 - [Where can I use it?](#where-can-i-use-it?)
 - [Installation and Usage](#installation-and-usage)
 - [Translations and Languages](#translations-and-languages)
+- [Default global error messages](#default-global-error-messages)
 - [Add a new translation for the French Language](#add-a-new-translation-for-the-french-language)
 - [Add a new translation for the Arabic Language](#add-a-new-translation-for-the-arabic-language)
 - [Update an existing translation](#update-an-existing-translation)
@@ -175,6 +176,23 @@ let errors = validator
   })
   .prepare()
   .getObjectErrors();
+```
+
+### Default global error messages
+
+```javascript
+globalErrorMessages = {
+  en: {
+    required: `<%fieldName%> field is required.`,
+    email: `Please provide a valid email address for <%fieldName%> field.`,
+    min: `Minimum length of <%fieldName%> is <%minSize%> characters.`,
+    max: `Maximum length of <%fieldName%> is <%maxSize%> characters.`,
+    match: `<%fieldName%> field and <%matchField%> are not match.`,
+    enum: `<%fieldName%> field must be one of <%enumParams%>.`,
+    image: `Please provide a valid image (<%imageExtensions%>).`,
+    size: `The max size of <%fieldName%> is <%fileSize%>KB.`,
+  },
+};
 ```
 
 ### Add a new translation for the French Language
