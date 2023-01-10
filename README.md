@@ -8,6 +8,11 @@ Devlogs Validator is a library to validate data in client or server.
 
 Devlogs Validator is a library to validate data in a client or server. Which means that you can use devlogs-validator to validate data in any technology that uses javascript. ( a standalone Javascript, React.js, Node.js, Angular, vue, etc.)
 
+## Summary
+
+- [Where can I use it?](#where-can-i-use-it?)
+- [Installation and Usage](#installation-and-usage)
+
 ## Installation and Usage
 
 Install the library with `npm install devlogs-validator`
@@ -54,7 +59,9 @@ let errors = validator.setValidation({
 });
 ```
 
-#### Set Messages
+#### Set a custom message for each field manually
+
+You can skip this part because there is global error messages for all validation errors. and you can change the global error messages and add messages in different languages.
 
 ```javascript
 errors.setMessages({
