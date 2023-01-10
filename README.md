@@ -157,20 +157,55 @@ const errors = validator
 
 ## Translations and Languages
 
-There is global error messages for all validation errors. so that is means you can **setValidation()** then **prepare()** and **getObjectErrors()** then that will return for you a global error messages for all validation errors.
+There is global error messages for all validation errors. so that is means you can **setValidation()** then **prepare()** and **getObjectErrors()** then that will return for you a global error messages for all validation errors. **Default Language is EN** ( english )
 
 <!-- and you can change the global error messages and add messages in different languages. -->
 
 ```javascript
 const validator = new Validator(formData);
-let errors = validator.setValidation({
-  username: ["required", "min:5", "max:20"],
-  email: ["required", "email"],
-  password: ["required", "min:8", "max:50"],
-  passwordConfirm: ["required", "match:password", "min:8", "max:50"],
-  photo: ["image:jpeg,png", "size:2048"],
-  role: ["required", "enum:user,admin"],
+let errors = validator
+  .setValidation({
+    username: ["required", "min:5", "max:20"],
+    email: ["required", "email"],
+    password: ["required", "min:8", "max:50"],
+    passwordConfirm: ["required", "match:password", "min:8", "max:50"],
+    photo: ["image:jpeg,png", "size:2048"],
+    role: ["required", "enum:user,admin"],
+  })
+  .prepare()
+  .getObjectErrors();
+```
+
+### Add new translation
+
+First you have to use **addTranslation(language, translation as object)** then use **setLanguage(Language)** before **prepare()**
+
+```javascript
+const validator = new Validator(formData);
+
+validator.addTranslation("ar", {
+  required: "حقل <%fieldName%> مطلوب.",
+  email: "من فضلك أدخل بريد الكتروني صالح لحقل <%fieldName%>",
+  min: "الحد الأدنى للحروف التي يمكن ادخالها في حقل <%fieldName%> هو <%minSize%>",
+  max: "الحد الأقصى للقيمة التي يمكن ادخالها في حقل <%fieldName%> هو <%maxSize%>",
+  match: "الحقل <%fieldName%> و <%matchField%> غير متطابقيين.",
+  enum: "الحقل <%fieldName%> يجب أن يكون من ضمن هذة القيم <%enumParams%>.",
+  image: "من فضلك قم برفع صورة صالحة من نوع <%imageExtensions%>.",
+  size: "أقصى حجم ملف مسموح به هو <%fieldName%> كيلوبايت.",
 });
+
+let errors = validator
+  .setValidation({
+    username: ["required", "min:5", "max:20"],
+    email: ["required", "email"],
+    password: ["required", "min:8", "max:50"],
+    passwordConfirm: ["required", "match:password", "min:8", "max:50"],
+    photo: ["image:jpeg,png", "size:2048"],
+    role: ["required", "enum:user,admin"],
+  })
+  .setLanguage("ar") // Arabic
+  .prepare()
+  .getObjectErrors();
 ```
 
 ## Flags
