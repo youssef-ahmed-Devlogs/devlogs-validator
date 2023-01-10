@@ -13,6 +13,7 @@ Devlogs Validator is a library to validate data in a client or server. Which mea
 - [Where can I use it?](#where-can-i-use-it?)
 - [Installation and Usage](#installation-and-usage)
 - [Translations and Languages](#translations-and-languages)
+- [Add new translation for arabic language](#add-new-translation-for-arabic-language)
 - [Flags](#flags)
 
 ## Installation and Usage
@@ -157,7 +158,7 @@ const errors = validator
 
 ## Translations and Languages
 
-There is global error messages for all validation errors. so that is means you can **setValidation()** then **prepare()** and **getObjectErrors()** then that will return for you a global error messages for all validation errors. **Default Language is EN** ( english )
+There is global error messages for all validation errors. so that is means you can **setValidation()** then **prepare()** and **getObjectErrors()** then that will return for you a global error messages for all validation errors. **Default Language is ( en )** ( english )
 
 <!-- and you can change the global error messages and add messages in different languages. -->
 
@@ -176,7 +177,7 @@ let errors = validator
   .getObjectErrors();
 ```
 
-### Add new translation
+### Add new translation for arabic language
 
 First you have to use **addTranslation(language, translation as object)** then use **setLanguage(Language)** before **prepare()**
 
