@@ -54,4 +54,62 @@ class Validator extends ValidatorControllers implements Validators {
   }
 }
 
+const formData = {
+  username: "",
+  email: "ad",
+  password: "12345678",
+  passwordConfirm: "123456789",
+  role: "asd",
+  photo: {
+    type: "image/png",
+    size: 1213,
+  },
+};
+
+const validator = new Validator(formData);
+
+validator.addTranslation("ar", {
+  required: "حقل <%fieldName%> مطلوب.",
+  email: "من فضلك أدخل بريد الكتروني صالح لحقل <%fieldName%>",
+  min: "الحد الأدنى للحروف التي يمكن ادخالها في حقل <%fieldName%> هو <%minSize%>",
+  max: "الحد الأقصى للقيمة التي يمكن ادخالها في حقل <%fieldName%> هو <%maxSize%>",
+  match: "الحقل <%fieldName%> و <%matchField%> غير متطابقيين.",
+  enum: "الحقل <%fieldName%> يجب أن يكون من ضمن هذة القيم <%enumParams%>.",
+  image: "من فضلك قم برفع صورة صالحة من نوع <%imageExtensions%>.",
+  size: "أقصى حجم ملف مسموح به هو <%fieldName%> كيلوبايت.",
+});
+
+validator.addTranslation("fr", {
+  required: `Le champ <%fieldName%> est obligatoire.`,
+  email: `Veuillez fournir une adresse e-mail valide pour le champ <%fieldName%>.`,
+  min: `La longueur minimale de <%fieldName%> est de <%minSize%> caractères.`,
+  max: `La longueur maximale de <%fieldName%> est de <%maxSize%> caractères.`,
+  match: `Le champ <%fieldName%> et <%matchField%> ne correspondent pas.`,
+  enum: `Le champ <%fieldName%> doit être l'un des <%enumParams%>.`,
+  image: `Veuillez fournir une image valide (<%imageExtensions%>).`,
+  size: `La taille maximale de <%fieldName%> est de <%fileSize%>Ko.`,
+});
+
+validator.updateTranslation("en", {
+  required: `<%fieldName%> can't be empty!`,
+  match: `<%fieldName%> field and <%matchField%> field are not the same.`,
+});
+
+let errors = validator
+  .setValidation({
+    username: ["required", "min:5", "max:20"],
+    email: ["required", "email"],
+    password: ["required", "min:8", "max:50"],
+    passwordConfirm: ["required", "match:password", "min:8", "max:50"],
+    photo: ["image:jpeg,png", "size:2048"],
+    role: ["required", "enum:user,admin"],
+  })
+  .setLanguage("en") // French
+  .prepare()
+  .getObjectErrors();
+
+console.log("====================================");
+console.log(errors);
+console.log("====================================");
+
 export default Validator;

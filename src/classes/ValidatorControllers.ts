@@ -112,6 +112,15 @@ class ValidatorControllers extends ValidatorWorker {
     this.globalErrorMessages[key] = messages;
     return this;
   }
+
+  public updateTranslation(key: string, messages: object): ValidatorWorker {
+    this.globalErrorMessages[key] = {
+      ...this.globalErrorMessages[key],
+      ...messages,
+    };
+
+    return this;
+  }
 }
 
 export default ValidatorControllers;

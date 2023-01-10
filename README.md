@@ -13,8 +13,9 @@ Devlogs Validator is a library to validate data in a client or server. Which mea
 - [Where can I use it?](#where-can-i-use-it?)
 - [Installation and Usage](#installation-and-usage)
 - [Translations and Languages](#translations-and-languages)
-- [Add new translation for French Language](#add-new-translation-for-french-language)
-- [Add new translation for Arabic Language](#add-new-translation-for-arabic-language)
+- [Add a new translation for the French Language](#add-new-translation-for-the-french-language)
+- [Add a new translation for the Arabic Language](#add-new-translation-for-the-arabic-language)
+- [Update an existing translation](#update-an-existing-translation)
 - [Flags](#flags)
 
 ## Installation and Usage
@@ -161,8 +162,6 @@ const errors = validator
 
 There is global error messages for all validation errors. so that is means you can **setValidation()** then **prepare()** and **getObjectErrors()** then that will return for you a global error messages for all validation errors. **Default Language is ( en )** ( english )
 
-<!-- and you can change the global error messages and add messages in different languages. -->
-
 ```javascript
 const validator = new Validator(formData);
 let errors = validator
@@ -178,7 +177,7 @@ let errors = validator
   .getObjectErrors();
 ```
 
-### Add new translation for French Language
+### Add a new translation for the French Language
 
 First you have to use **addTranslation(language, translation as object)** then use **setLanguage(Language)** before **prepare()**
 
@@ -210,7 +209,7 @@ let errors = validator
   .getObjectErrors();
 ```
 
-### Add new translation for Arabic Language
+### Add a new translation for the Arabic Language
 
 First you have to use **addTranslation(language, translation as object)** then use **setLanguage(Language)** before **prepare()**
 
@@ -240,6 +239,15 @@ let errors = validator
   .setLanguage("ar") // Arabic
   .prepare()
   .getObjectErrors();
+```
+
+### Update an existing translation
+
+```javascript
+validator.updateTranslation("en", {
+  required: `<%fieldName%> can't be empty!`,
+  match: `<%fieldName%> field and <%matchField%> field are not the same.`,
+});
 ```
 
 ## Flags
