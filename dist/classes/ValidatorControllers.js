@@ -8,7 +8,19 @@ class ValidatorControllers extends ValidatorWorker {
         return this;
     }
     setMessages(messages) {
-        this.messages = messages;
+        this.errorMessages = messages;
+        return this;
+    }
+    prepare() {
+        const validationFields = Object.keys(this.validation);
+        const dataFields = Object.keys(this.data);
+        validationFields.forEach((validationField) => {
+            if (dataFields.includes(validationField)) {
+                const flags = this.validation[validationField];
+                const fieldName = validationField;
+                this.selectErrorType(flags, fieldName);
+            }
+        });
         return this;
     }
     getErrors() {
@@ -16,6 +28,14 @@ class ValidatorControllers extends ValidatorWorker {
     }
     getObjectErrors() {
         return this.objectErrors;
+    }
+    setLanguage(lang) {
+        this.language = lang;
+        return this;
+    }
+    addTranslation(key, messages) {
+        this.globalErrorMessages[key] = messages;
+        return this;
     }
 }
 export default ValidatorControllers;
