@@ -40,8 +40,14 @@ class ValidatorWorker {
   // ==== Flags parameters values ====
   private minSize: string = "";
   private maxSize: string = "";
+  private gtValue: string = "";
+  private gteValue: string = "";
+  private ltValue: string = "";
+  private lteValue: string = "";
   private matchField: string = "";
   private enumParams: string[] = [];
+  private inParams: string[] = [];
+
   // files parameters
   private fileSize: string = "";
   private imageExtensions: string[] = [];
@@ -55,10 +61,16 @@ class ValidatorWorker {
     en: {
       required: `<%fieldName%> field is required.`,
       email: `Please provide a valid email address for <%fieldName%> field.`,
+      array: `<%fieldName%> field must be an array.`,
       min: `Minimum length of <%fieldName%> is <%minSize%> characters.`,
+      gt: `<%fieldName%> value must be grater than <%gtValue%>.`,
+      gte: `<%fieldName%> value must be grater than or equal <%gteValue%>.`,
+      lt: `<%fieldName%> value must be less than <%ltValue%>.`,
+      lte: `<%fieldName%> value must be less than or equal <%lteValue%>.`,
       max: `Maximum length of <%fieldName%> is <%maxSize%> characters.`,
       match: `<%fieldName%> field and <%matchField%> are not match.`,
       enum: `<%fieldName%> field must be one of <%enumParams%>.`,
+      in: `<%fieldName%> values must be at least one of <%inParams%>.`,
       image: `Please provide a valid image (<%imageExtensions%>).`,
       size: `The max size of <%fieldName%> is <%fileSize%>KB.`,
     },
@@ -87,7 +99,12 @@ class ValidatorWorker {
 
     const [max, maxSize] = this.extractFields(validationFlags, "max");
     const [min, minSize] = this.extractFields(validationFlags, "min");
+    const [gt, gtValue] = this.extractFields(validationFlags, "gt");
+    const [gte, gteValue] = this.extractFields(validationFlags, "gte");
+    const [lt, ltValue] = this.extractFields(validationFlags, "lt");
+    const [lte, lteValue] = this.extractFields(validationFlags, "lte");
     const [_enum, params] = this.extractFields(validationFlags, "enum");
+    const [_in, inParams] = this.extractFields(validationFlags, "in");
     const [image, extensions] = this.extractFields(validationFlags, "image");
     const [size, imageSize] = this.extractFields(validationFlags, "size");
     const [match, matchField] = this.extractFields(validationFlags, "match");
@@ -95,13 +112,17 @@ class ValidatorWorker {
     // Save Flags parameters to use them in global error messages in this.sendMessage()
     this.maxSize = maxSize;
     this.minSize = minSize;
+    this.gtValue = gtValue;
+    this.gteValue = gteValue;
+    this.ltValue = ltValue;
+    this.lteValue = lteValue;
     this.fileSize = imageSize;
     this.matchField = matchField;
 
     // ==== ** Select the correct validation method for each field ** ====
 
     // Validate image size
-    if (size && imageSize) this.imageSize(field, imageSize.trim());
+    if (size && imageSize) this.validateImageSize(field, imageSize.trim());
 
     // Validate image with extensions
     if (image && extensions) {
@@ -112,7 +133,7 @@ class ValidatorWorker {
       this.imageExtensions = exts;
 
       // Run validation method
-      this.image(field, exts);
+      this.validateImage(field, exts);
     }
 
     // Validate a field with enum values
@@ -127,6 +148,18 @@ class ValidatorWorker {
       this.enum(field, enumParams);
     }
 
+    // Validate a field with in values
+    if (_in) {
+      // Convert in params from a string like this "admin,user" to an array ["admin", "user"]
+      let inValues = inParams.split(",").map((param) => param.trim()) || "";
+
+      // Save Flags parameters to use them in global error messages in this.sendMessage()
+      this.inParams = inValues;
+
+      // Run validation method
+      this.in(field, inValues);
+    }
+
     // Validate match field
     if (match && matchField) this.match(field, matchField);
 
@@ -135,6 +168,21 @@ class ValidatorWorker {
 
     // Validate min size
     if (min && minSize.trim()) this.min(field, minSize.trim());
+
+    // Validate gt value
+    if (gt && gtValue.trim() && !gte) this.gt(field, gtValue.trim());
+
+    // Validate gte value
+    if (gte && gteValue.trim()) this.gte(field, gteValue.trim());
+
+    // Validate lt value
+    if (lt && ltValue.trim() && !lte) this.lt(field, ltValue.trim());
+
+    // Validate lte value
+    if (lte && lteValue.trim()) this.lte(field, lteValue.trim());
+
+    // Validate array field
+    if (validationFlags.includes("array")) this.array(field);
 
     // Validate valid email
     if (validationFlags.includes("email")) this.email(field);
@@ -159,8 +207,13 @@ class ValidatorWorker {
       .replace("<%maxSize%>", this.maxSize)
       .replace("<%matchField%>", this.matchField)
       .replace("<%enumParams%>", this.enumParams.join(", "))
+      .replace("<%inParams%>", this.inParams.join(", "))
       .replace("<%imageExtensions%>", this.imageExtensions.join(", "))
-      .replace("<%fileSize%>", this.fileSize);
+      .replace("<%fileSize%>", this.fileSize)
+      .replace("<%gtValue%>", this.gtValue)
+      .replace("<%gteValue%>", this.gteValue)
+      .replace("<%ltValue%>", this.ltValue)
+      .replace("<%lteValue%>", this.lteValue);
   }
 
   /**
@@ -192,9 +245,34 @@ class ValidatorWorker {
           errorMessages.email || defaultMessage,
           field
         );
+      case "array":
+        return this.replaceMessageVariables(
+          errorMessages.array || defaultMessage,
+          field
+        );
       case "min":
         return this.replaceMessageVariables(
           errorMessages.min || defaultMessage,
+          field
+        );
+      case "gt":
+        return this.replaceMessageVariables(
+          errorMessages.gt || defaultMessage,
+          field
+        );
+      case "gte":
+        return this.replaceMessageVariables(
+          errorMessages.gte || defaultMessage,
+          field
+        );
+      case "lt":
+        return this.replaceMessageVariables(
+          errorMessages.lt || defaultMessage,
+          field
+        );
+      case "lte":
+        return this.replaceMessageVariables(
+          errorMessages.lte || defaultMessage,
           field
         );
       case "max":
@@ -210,6 +288,11 @@ class ValidatorWorker {
       case "enum":
         return this.replaceMessageVariables(
           errorMessages.enum || defaultMessage,
+          field
+        );
+      case "in":
+        return this.replaceMessageVariables(
+          errorMessages.in || defaultMessage,
           field
         );
       case "size":

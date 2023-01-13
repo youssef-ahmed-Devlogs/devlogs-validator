@@ -1,6 +1,6 @@
 {
   "name": "devlogs-validator",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Devlogs Validator is a library to validate data in a client or server. Which means that you can use devlogs-validator to validate data in any technology that uses javascript. ( a standalone Javascript, React.js, Node.js, Angular, vue, etc.)",
   "main": "./dist/Validator.js",
   "type": "module",

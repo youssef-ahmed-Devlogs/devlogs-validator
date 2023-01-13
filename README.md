@@ -104,10 +104,10 @@ errors.setMessages({
 });
 ```
 
-#### Prepare and return errors as object or array
+#### Return errors as object or array
 
 ```javascript
-errors = errors.prepare().getObjectErrors(); // get errors as object
+errors = errors.getObjectErrors(); // get errors as object
 //.getErrors(); // get errors as array
 ```
 
@@ -154,14 +154,13 @@ const errors = validator
       enum: "Role value must be in (user, admin)",
     },
   })
-  .prepare()
-  //.getErrors(); // get errors as array
   .getObjectErrors(); // get errors as object
+//.getErrors(); // get errors as array
 ```
 
 ## Translations and Languages
 
-There is global error messages for all validation errors. so that is means you can **setValidation()** then **prepare()** and **getObjectErrors()** then that will return for you a global error messages for all validation errors. **Default Language is ( en )** ( english )
+There is global error messages for all validation errors. so that is means you can **setValidation()** then **getObjectErrors()** then that will return for you a global error messages for all validation errors. **Default Language is ( en )** ( english )
 
 ```javascript
 const validator = new Validator(formData);
@@ -174,7 +173,6 @@ let errors = validator
     photo: ["image:jpeg,png", "size:2048"],
     role: ["required", "enum:user,admin"],
   })
-  .prepare()
   .getObjectErrors();
 ```
 
@@ -185,10 +183,16 @@ globalErrorMessages = {
   en: {
     required: `<%fieldName%> field is required.`,
     email: `Please provide a valid email address for <%fieldName%> field.`,
+    array: `<%fieldName%> field must be an array.`,
     min: `Minimum length of <%fieldName%> is <%minSize%> characters.`,
+    gt: `<%fieldName%> value must be grater than <%gtValue%>.`,
+    gte: `<%fieldName%> value must be grater than or equal <%gteValue%>.`,
+    lt: `<%fieldName%> value must be less than <%ltValue%>.`,
+    lte: `<%fieldName%> value must be less than or equal <%lteValue%>.`,
     max: `Maximum length of <%fieldName%> is <%maxSize%> characters.`,
     match: `<%fieldName%> field and <%matchField%> are not match.`,
     enum: `<%fieldName%> field must be one of <%enumParams%>.`,
+    in: `<%fieldName%> values must be at least one of <%inParams%>.`,
     image: `Please provide a valid image (<%imageExtensions%>).`,
     size: `The max size of <%fieldName%> is <%fileSize%>KB.`,
   },
@@ -197,7 +201,7 @@ globalErrorMessages = {
 
 ### Add a new translation for the French Language
 
-First you have to use **addTranslation(language, translation as object)** then use **setLanguage(Language)** before **prepare()**
+First you have to use **addTranslation(language, translation as object)** then use **setLanguage(Language)** before **getObjectErrors()**
 
 ```javascript
 const validator = new Validator(formData);
@@ -223,13 +227,12 @@ let errors = validator
     role: ["required", "enum:user,admin"],
   })
   .setLanguage("fr") // French
-  .prepare()
   .getObjectErrors();
 ```
 
 ### Add a new translation for the Arabic Language
 
-First you have to use **addTranslation(language, translation as object)** then use **setLanguage(Language)** before **prepare()**
+First you have to use **addTranslation(language, translation as object)** then use **setLanguage(Language)** before **getObjectErrors()**
 
 ```javascript
 const validator = new Validator(formData);
@@ -255,7 +258,6 @@ let errors = validator
     role: ["required", "enum:user,admin"],
   })
   .setLanguage("ar") // Arabic
-  .prepare()
   .getObjectErrors();
 ```
 
@@ -273,12 +275,29 @@ validator.updateTranslation("en", {
 ```javascript
 "required"; // Check if a certain field is not empty.
 "email"; // Check if a certain field is a valid email address.
+"array"; // Check if a certain field is an array.
 "match:(field)"; // Check if a certain field value is equal to another field value. ["match:password"]
 "min:(number)"; // Set a certain minimum length. ["min:8"]
 "max:(number)"; // Set a certain maximum length. ["max:100"]
+/* can use with multiples files field */
 "image:(extensions)"; // Check if a certain image field is an image with certain extensions. ["image:jpeg,png,jpg"]
+/* can use with multiples files field */
 "size:(KB)"; // Set a certain file size in KB. ["size:2048"]
 "enum:(values)"; // Set a certain values. ["enum:user,admin"]
+"in:(values)"; /*
+ - Set a certain values, but between two arrays. ["in:admin, moderator"]
+
+  formData = {
+    roles: [admin, user]
+  }
+
+  roles: ["in:admin, moderator"] => roles must have at least one of those values.
+*/
+
+"gt:(number)"; // Check if a certain field value is grater than another value. ["gt:20"]
+"gte:(number)"; // Check if a certain field value is grater than or equal another value. ["gt:20"]
+"lt:(number)"; // Check if a certain field value is less than another value. ["lt:20"]
+"lte:(number)"; // Check if a certain field value is less than or equal another value. ["lte:20"]
 ```
 
 [npm-url]: https://www.npmjs.com/package/devlogs-validator

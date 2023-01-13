@@ -24,9 +24,11 @@ class ValidatorControllers extends ValidatorWorker {
         return this;
     }
     getErrors() {
+        this.prepare();
         return this.errors;
     }
     getObjectErrors() {
+        this.prepare();
         return this.objectErrors;
     }
     setLanguage(lang) {

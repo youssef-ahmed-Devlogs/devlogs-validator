@@ -81,6 +81,7 @@ class ValidatorControllers extends ValidatorWorker {
    * @returns string[]
    */
   public getErrors(): string[] {
+    this.prepare();
     return this.errors;
   }
 
@@ -89,6 +90,7 @@ class ValidatorControllers extends ValidatorWorker {
    * @returns object
    */
   public getObjectErrors(): Object {
+    this.prepare();
     return this.objectErrors;
   }
 
